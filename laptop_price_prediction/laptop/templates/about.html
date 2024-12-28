@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block body %}
+
+<style>
+    /* Main content area styling */
+    body {
+        height: 100vh;
+        background-image: url("static/newbg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body-content {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Content container styling */
+    .content-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 800px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.5);
+        text-align: left;
+        color: white;
+    }
+
+    /* Styling for main title */
+    .about-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Styling for subheadings */
+    .subheading {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: #ffcc00;
+    }
+
+    /* Styling for paragraphs */
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    /* Styling for "Contact Us" button */
+    .contact-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: color 0.4s, background-color 0.4s, box-shadow 0.4s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .contact-button:hover {
+        color: #ffcc00;
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.6);
+        border: 2px solid #ffcc00;
+    }
+</style>
+
+<main class="body-content">
+    <div class="content-container">
+        <h1 class="about-title">About Us</h1>
+        
+        <p>Welcome to [Your Company Name]! We are dedicated to providing top-notch services and innovative solutions tailored to meet your unique needs. Our team of professionals is committed to delivering exceptional quality and value.</p>
+        
+        <h2 class="subheading">Our Mission</h2>
+        <p>Our mission is to empower individuals and businesses by providing reliable solutions and outstanding customer support. We aim to foster long-term relationships with our clients by upholding our values of trust, integrity, and excellence.</p>
+        
+        <h2 class="subheading">What We Offer</h2>
+        <p>At [Your Company Name], we specialize in offering a range of services, including:</p>
+        <ul>
+            <li>High-quality service tailored to your needs</li>
+            <li>Expert advice from industry-leading professionals</li>
+            <li>Cutting-edge technology solutions</li>
+            <li>Comprehensive customer support</li>
+        </ul>
+        
+        <h2 class="subheading">Contact Us</h2>
+        <p>We'd love to hear from you! If you have any questions, feel free to reach out to us.</p>
+        
+        <a href="/contact" class="contact-button">Contact Us</a>
+    </div>
+</main>
+
+{% endblock body %}

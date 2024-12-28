@@ -1,0 +1,868 @@
+{% extends 'base.html' %}
+
+{% block title %}Prediction Page{% endblock title %}
+
+{% block body %}
+
+<style>
+    /* Main content area styling */
+    body {
+        height: 100vh;
+        background-image: url("static/newbg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body-content {
+        flex-grow: 1; /* Ensures content takes the available space between navbar and footer */
+        display: flex;
+        justify-content: center; /* Align content to the center */
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Content container styling with scrollable content */
+    .content-container {
+        background-color: rgba(0, 0, 0, 0.5); /* Slightly darker background for contrast */
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 800px; 
+        max-height: 70vh; /* Reduce height to fit within the viewport */
+        overflow-y: auto; /* Enable vertical scrolling if content overflows */
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.5);
+        text-align: left;
+        color: white;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .question p {
+        margin: 0;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    /* Styling for the select dropdown */
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent dropdown background */
+        border: 2px solid rgba(255, 255, 255, 0.4); /* Light border for better visibility */
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+        {% comment %} backdrop-filter: blur(5px); /* Adds blur effect to the dropdown */ {% endcomment %}
+    }
+
+    /* Styling the options to make them visible */
+    option {
+        background-color: rgba(0, 0, 0, 0.7); /* Dark background for options */
+        color: white;
+    }
+
+    /* Transparent button with nav-matching hover effect */
+    button {
+        color: white;
+        font-weight: bold; 
+        font-size: 18px;
+        padding: 10px 30px;
+        background-color: rgba(255, 255, 255, 0.1); /* Transparent button */
+        border: 2px solid transparent;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: color 0.4s, background-color 0.4s, box-shadow 0.4s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    button:hover {
+        color: #ffcc00;
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.6);
+        border: 2px solid #ffcc00;
+    }
+
+    .button-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+
+<main class="body-content">
+    <div class="content-container">
+        <h2 class="p1">Laptop Prediction</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="question">
+                <p>1) Select your company:</p>
+                <select name="company">
+                    <option value="1">Acer</option>
+                    <option value="2">Apple</option>
+                    <option value="3">Asus</option>
+                    <option value="4">Chuwi</option>
+                    <option value="5">Dell</option>
+                    <option value="6">Fujitsu</option>
+                    <option value="7">Google</option>
+                    <option value="8">HP</option>
+                    <option value="9">Huawei</option>
+                    <option value="10">LG</option>
+                    <option value="11">Lenovo</option>
+                    <option value="12">MSI</option>
+                    <option value="13">Mediacom</option>
+                    <option value="14">Microsoft</option>
+                    <option value="15">Razer</option>
+                    <option value="16">Samsung</option>
+                    <option value="17">Toshiba</option>
+                    <option value="18">Vero</option>
+                    <option value="19">Xiaomi</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <p>2) Select Type:</p>
+                <select name="type">
+                    <option value="1">2 in 1 Convertible</option>
+                    <option value="2">Gaming</option>
+                    <option value="3">Netbook</option>
+                    <option value="4">Notebook</option>
+                    <option value="5">Ultrabook</option>
+                    <option value="6">Workstation</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <p>3) Select Screen Resolution:</p>
+                <select name="screen_resolution">
+                    <option value="1">1366x768</option>
+                    <option value="2">1440x900</option>
+                    <option value="3">1600x900</option>
+                    <option value="4">1920x1080</option>
+                    <option value="5">2560x1440</option>
+                    <option value="6">4K Ultra HD / Touchscreen 3840x2160</option>
+                    <option value="7">4K Ultra HD 3840x2160</option>
+                    <option value="8">Full HD / Touchscreen 1920x1080</option>
+                    <option value="9">Full HD 1920x1080</option>
+                    <option value="10">IPS Panel 1366x768</option>
+                    <option value="11">IPS Panel 2560x1440</option>
+                    <option value="12">IPS Panel 4K Ultra HD / Touchscreen 3840x2160</option>
+                    <option value="13">IPS Panel 4K Ultra HD 3840x2160</option>
+                    <option value="14">IPS Panel Full HD / Touchscreen 1920x1080</option>
+                    <option value="15">IPS Panel Full HD 1366x768</option>
+                    <option value="16">IPS Panel Full HD 1920x1080</option>
+                    <option value="17">IPS Panel Full HD 1920x1200</option>
+                    <option value="18">IPS Panel Full HD 2160x1440</option>
+                    <option value="19">IPS Panel Full HD 2560x1440</option>
+                    <option value="20">IPS Panel Quad HD+ / Touchscreen 3200x1800</option>
+                    <option value="21">IPS Panel Quad HD+ 2560x1440</option>
+                    <option value="22">IPS Panel Quad HD+ 3200x1800</option>
+                    <option value="23">IPS Panel Retina Display 2304x1440</option>
+                    <option value="24">IPS Panel Retina Display 2560x1600</option>
+                    <option value="25">IPS Panel Retina Display 2736x1824</option>
+                    <option value="26">IPS Panel Retina Display 2880x1800</option>
+                    <option value="27">IPS Panel Touchscreen / 4K Ultra HD 3840x2160</option>
+                    <option value="28">IPS Panel Touchscreen 1366x768</option>
+                    <option value="29">IPS Panel Touchscreen 1920x1200</option>
+                    <option value="30">IPS Panel Touchscreen 2400x1600</option>
+                    <option value="31">IPS Panel Touchscreen 2560x1440</option>
+                    <option value="32">Quad HD+ / Touchscreen 3200x1800</option>
+                    <option value="33">Quad HD+ 3200x1800</option>
+                    <option value="34">Touchscreen / 4K Ultra HD 3840x2160</option>
+                    <option value="35">Touchscreen / Full HD 1920x1080</option>
+                    <option value="36">Touchscreen / Quad HD+ 3200x1800</option>
+                    <option value="37">Touchscreen 1366x768</option>
+                    <option value="38">Touchscreen 2256x1504</option>
+                    <option value="39">Touchscreen 2400x1600</option>
+                    <option value="40">Touchscreen 2560x1440</option>
+                </select>
+            </div>
+            
+
+            <div class="question">
+                <p>4) Select CPU:</p>
+                <select name="cpu">
+                    <option value="1">AMD A10-Series 9600P 2.4GHz</option>
+                    <option value="2">AMD A10-Series 9620P 2.5GHz</option>
+                    <option value="3">AMD A10-Series A10-9620P 2.5GHz</option>
+                    <option value="4">AMD A12-Series 9700P 2.5GHz</option>
+                    <option value="5">AMD A12-Series 9720P 2.7GHz</option>
+                    <option value="6">AMD A12-Series 9720P 3.6GHz</option>
+                    <option value="7">AMD A4-Series 7210 2.2GHz</option>
+                    <option value="8">AMD A6-Series 7310 2GHz</option>
+                    <option value="9">AMD A6-Series 9220 2.5GHz</option>
+                    <option value="10">AMD A6-Series 9220 2.9GHz</option>
+                    <option value="11">AMD A6-Series A6-9220 2.5GHz</option>
+                    <option value="12">AMD A8-Series 7410 2.2GHz</option>
+                    <option value="13">AMD A9-Series 9410 2.9GHz</option>
+                    <option value="14">AMD A9-Series 9420 2.9GHz</option>
+                    <option value="15">AMD A9-Series 9420 3GHz</option>
+                    <option value="16">AMD A9-Series A9-9420 3GHz</option>
+                    <option value="17">AMD E-Series 6110 1.5GHz</option>
+                    <option value="18">AMD E-Series 7110 1.8GHz</option>
+                    <option value="19">AMD E-Series 9000 2.2GHz</option>
+                    <option value="20">AMD E-Series 9000e 1.5GHz</option>
+                    <option value="21">AMD E-Series E2-6110 1.5GHz</option>
+                    <option value="22">AMD E-Series E2-9000 2.2GHz</option>
+                    <option value="23">AMD E-Series E2-9000e 1.5GHz</option>
+                    <option value="24">AMD FX 8800P 2.1GHz</option>
+                    <option value="25">AMD FX 9830P 3GHz</option>
+                    <option value="26">AMD Ryzen 1600 3.2GHz</option>
+                    <option value="27">AMD Ryzen 1700 3GHz</option>
+                    <option value="28">Intel Atom X5-Z8350 1.44GHz</option>
+                    <option value="29">Intel Atom Z8350 1.92GHz</option>
+                    <option value="30">Intel Atom x5-Z8300 1.44GHz</option>
+                    <option value="31">Intel Atom x5-Z8350 1.44GHz</option>
+                    <option value="32">Intel Atom x5-Z8550 1.44GHz</option>
+                    <option value="33">Intel Celeron Dual Core 3205U 1.5GHz</option>
+                    <option value="34">Intel Celeron Dual Core 3855U 1.6GHz</option>
+                    <option value="35">Intel Celeron Dual Core N3050 1.6GHz</option>
+                    <option value="36">Intel Celeron Dual Core N3060 1.60GHz</option>
+                    <option value="37">Intel Celeron Dual Core N3060 1.6GHz</option>
+                    <option value="38">Intel Celeron Dual Core N3350 1.1GHz</option>
+                    <option value="39">Intel Celeron Dual Core N3350 2.0GHz</option>
+                    <option value="40">Intel Celeron Dual Core N3350 2GHz</option>
+                    <option value="41">Intel Celeron Quad Core N3160 1.6GHz</option>
+                    <option value="42">Intel Celeron Quad Core N3450 1.1GHz</option>
+                    <option value="43">Intel Celeron Quad Core N3710 1.6GHz</option>
+                    <option value="44">Intel Core M 1.1GHz</option>
+                    <option value="45">Intel Core M 1.2GHz</option>
+                    <option value="46">Intel Core M 6Y30 0.9GHz</option>
+                    <option value="47">Intel Core M 6Y54 1.1GHz</option>
+                    <option value="48">Intel Core M 6Y75 1.2GHz</option>
+                    <option value="49">Intel Core M 7Y30 1.0GHz</option>
+                    <option value="50">Intel Core M M3-6Y30 0.9GHz</option>
+                    <option value="51">Intel Core M M7-6Y75 1.2GHz</option>
+                    <option value="52">Intel Core M m3 1.2GHz</option>
+                    <option value="53">Intel Core M m3-7Y30 2.2GHz</option>
+                    <option value="54">Intel Core M m7-6Y75 1.2GHz</option>
+                    <option value="55">Intel Core i3 6006U 2.0GHz</option>
+                    <option value="56">Intel Core i3 6006U 2.2GHz</option>
+                    <option value="57">Intel Core i3 6006U 2GHz</option>
+                    <option value="58">Intel Core i3 6100U 2.1GHz</option>
+                    <option value="59">Intel Core i3 6100U 2.3GHz</option>
+                    <option value="60">Intel Core i3 7100U 2.4GHz</option>
+                    <option value="61">Intel Core i3 7130U 2.7GHz</option>
+                    <option value="62">Intel Core i5 1.3GHz</option>
+                    <option value="63">Intel Core i5 1.6GHz</option>
+                    <option value="64">Intel Core i5 1.8GHz</option>
+                    <option value="65">Intel Core i5 2.0GHz</option>
+                    <option value="66">Intel Core i5 2.3GHz</option>
+                    <option value="67">Intel Core i5 2.9GHz</option>
+                    <option value="68">Intel Core i5 3.1GHz</option>
+                    <option value="69">Intel Core i5 6200U 2.3GHz</option>
+                    <option value="70">Intel Core i5 6260U 1.8GHz</option>
+                    <option value="71">Intel Core i5 6300HQ 2.3GHz</option>
+                    <option value="72">Intel Core i5 6300U 2.4GHz</option>
+                    <option value="73">Intel Core i5 6440HQ 2.6GHz</option>
+                    <option value="74">Intel Core i5 7200U 2.50GHz</option>
+                    <option value="75">Intel Core i5 7200U 2.5GHz</option>
+                    <option value="76">Intel Core i5 7200U 2.70GHz</option>
+                    <option value="77">Intel Core i5 7200U 2.7GHz</option>
+                    <option value="78">Intel Core i5 7300HQ 2.5GHz</option>
+                    <option value="79">Intel Core i5 7300U 2.6GHz</option>
+                    <option value="80">Intel Core i5 7440HQ 2.8GHz</option>
+                    <option value="81">Intel Core i5 7500U 2.7GHz</option>
+                    <option value="82">Intel Core i5 7Y54 1.2GHz</option>
+                    <option value="83">Intel Core i5 7Y57 1.2GHz</option>
+                    <option value="84">Intel Core i5 8250U 1.6GHz</option>
+                    <option value="85">Intel Core i7 2.2GHz</option>
+                    <option value="86">Intel Core i7 2.7GHz</option>
+                    <option value="87">Intel Core i7 2.8GHz</option>
+                    <option value="88">Intel Core i7 2.9GHz</option>
+                    <option value="89">Intel Core i7 6500U 2.50GHz</option>
+                    <option value="90">Intel Core i7 6500U 2.5GHz</option>
+                    <option value="91">Intel Core i7 6560U 2.2GHz</option>
+                    <option value="92">Intel Core i7 6600U 2.6GHz</option>
+                    <option value="93">Intel Core i7 6700HQ 2.6GHz</option>
+                    <option value="94">Intel Core i7 6820HK 2.7GHz</option>
+                    <option value="95">Intel Core i7 6820HQ 2.7GHz</option>
+                    <option value="96">Intel Core i7 6920HQ 2.9GHz</option>
+                    <option value="97">Intel Core i7 7500U 2.5GHz</option>
+                    <option value="98">Intel Core i7 7500U 2.7GHz</option>
+                    <option value="99">Intel Core i7 7560U 2.4GHz</option>
+                    <option value="100">Intel Core i7 7600U 2.8GHz</option>
+                    <option value="101">Intel Core i7 7660U 2.5GHz</option>
+                    <option value="102">Intel Core i7 7700HQ 2.7GHz</option>
+                    <option value="103">Intel Core i7 7700HQ 2.8GHz</option>
+                    <option value="104">Intel Core i7 7820HK 2.9GHz</option>
+                    <option value="105">Intel Core i7 7820HQ 2.9GHz</option>
+                    <option value="106">Intel Core i7 7Y75 1.3GHz</option>
+                    <option value="107">Intel Core i7 8550U 1.8GHz</option>
+                    <option value="108">Intel Core i7 8650U 1.9GHz</option>
+                    <option value="109">Intel Pentium Dual Core 4405U 2.1GHz</option>
+                    <option value="110">Intel Pentium Dual Core 4405Y 1.5GHz</option>
+                    <option value="111">Intel Pentium Dual Core N4200 1.1GHz</option>
+                    <option value="112">Intel Pentium Quad Core N3700 1.6GHz</option>
+                    <option value="113">Intel Pentium Quad Core N3710 1.6GHz</option>
+                    <option value="114">Intel Pentium Quad Core N4200 1.1GHz</option>
+                    <option value="115">Intel Xeon E3-1505M V6 3GHz</option>
+                    <option value="116">Intel Xeon E3-1535M v5 2.9GHz</option>
+                    <option value="117">Intel Xeon E3-1535M v6 3.1GHz</option>
+                    <option value="118">Samsung Cortex A72&A53 2.0GHz</option>
+                </select>
+            </div>
+            
+
+            <div class="question">
+                <p>5) Select Memory:</p>
+                <select name="memory">
+                    <option value="1">1.0TB HDD</option>
+                    <option value="2">1.0TB Hybrid</option>
+                    <option value="3">128GB Flash Storage</option>
+                    <option value="4">128GB HDD</option>
+                    <option value="5">128GB SSD</option>
+                    <option value="6">128GB SSD + 1TB HDD</option>
+                    <option value="7">128GB SSD + 2TB HDD</option>
+                    <option value="8">16GB Flash Storage</option>
+                    <option value="9">16GB SSD</option>
+                    <option value="10">180GB SSD</option>
+                    <option value="11">1TB HDD</option>
+                    <option value="12">1TB HDD + 1TB HDD</option>
+                    <option value="13">1TB SSD</option>
+                    <option value="14">1TB SSD + 1TB HDD</option>
+                    <option value="15">240GB SSD</option>
+                    <option value="16">256GB Flash Storage</option>
+                    <option value="17">256GB SSD</option>
+                    <option value="18">256GB SSD + 1.0TB Hybrid</option>
+                    <option value="19">256GB SSD + 1TB HDD</option>
+                    <option value="20">256GB SSD + 256GB SSD</option>
+                    <option value="21">256GB SSD + 2TB HDD</option>
+                    <option value="22">256GB SSD + 500GB HDD</option>
+                    <option value="23">2TB HDD</option>
+                    <option value="24">32GB Flash Storage</option>
+                    <option value="25">32GB HDD</option>
+                    <option value="26">32GB SSD</option>
+                    <option value="27">500GB HDD</option>
+                    <option value="28">508GB Hybrid</option>
+                    <option value="29">512GB Flash Storage</option>
+                    <option value="30">512GB SSD</option>
+                    <option value="31">512GB SSD + 1.0TB Hybrid</option>
+                    <option value="32">512GB SSD + 1TB HDD</option>
+                    <option value="33">512GB SSD + 256GB SSD</option>
+                    <option value="34">512GB SSD + 2TB HDD</option>
+                    <option value="35">512GB SSD + 512GB SSD</option>
+                    <option value="36">64GB Flash Storage</option>
+                    <option value="37">64GB Flash Storage + 1TB HDD</option>
+                    <option value="38">64GB SSD</option>
+                    <option value="39">8GB SSD</option>
+                </select>
+            </div>
+            
+
+            <div class="question">
+                <p>6) Select GPU:</p>
+                <select name="gpu">
+                    <option value="1">AMD FirePro W4190M</option>
+                    <option value="2">AMD FirePro W4190M </option>
+                    <option value="3">AMD FirePro W5130M</option>
+                    <option value="4">AMD FirePro W6150M</option>
+                    <option value="5">AMD R17M-M1-70</option>
+                    <option value="6">AMD R4 Graphics</option>
+                    <option value="7">AMD Radeon 520</option>
+                    <option value="8">AMD Radeon 530</option>
+                    <option value="9">AMD Radeon 540</option>
+                    <option value="10">AMD Radeon Pro 455</option>
+                    <option value="11">AMD Radeon Pro 555</option>
+                    <option value="12">AMD Radeon Pro 560</option>
+                    <option value="13">AMD Radeon R2</option>
+                    <option value="14">AMD Radeon R2 Graphics</option>
+                    <option value="15">AMD Radeon R3</option>
+                    <option value="16">AMD Radeon R4</option>
+                    <option value="17">AMD Radeon R4 Graphics</option>
+                    <option value="18">AMD Radeon R5</option>
+                    <option value="19">AMD Radeon R5 430</option>
+                    <option value="20">AMD Radeon R5 520</option>
+                    <option value="21">AMD Radeon R5 M315</option>
+                    <option value="22">AMD Radeon R5 M330</option>
+                    <option value="23">AMD Radeon R5 M420</option>
+                    <option value="24">AMD Radeon R5 M420X</option>
+                    <option value="25">AMD Radeon R5 M430</option>
+                    <option value="26">AMD Radeon R7</option>
+                    <option value="27">AMD Radeon R7 Graphics</option>
+                    <option value="28">AMD Radeon R7 M360</option>
+                    <option value="29">AMD Radeon R7 M365X</option>
+                    <option value="30">AMD Radeon R7 M440</option>
+                    <option value="31">AMD Radeon R7 M445</option>
+                    <option value="32">AMD Radeon R7 M460</option>
+                    <option value="33">AMD Radeon R7 M465</option>
+                    <option value="34">AMD Radeon R9 M385</option>
+                    <option value="35">AMD Radeon RX 540</option>
+                    <option value="36">AMD Radeon RX 550</option>
+                    <option value="37">AMD Radeon RX 560</option>
+                    <option value="38">AMD Radeon RX 580</option>
+                    <option value="39">ARM Mali T860 MP4</option>
+                    <option value="40">Intel Graphics 620</option>
+                    <option value="41">Intel HD Graphics</option>
+                    <option value="42">Intel HD Graphics 400</option>
+                    <option value="43">Intel HD Graphics 405</option>
+                    <option value="44">Intel HD Graphics 500</option>
+                    <option value="45">Intel HD Graphics 505</option>
+                    <option value="46">Intel HD Graphics 510</option>
+                    <option value="47">Intel HD Graphics 515</option>
+                    <option value="48">Intel HD Graphics 520</option>
+                    <option value="49">Intel HD Graphics 530</option>
+                    <option value="50">Intel HD Graphics 5300</option>
+                    <option value="51">Intel HD Graphics 540</option>
+                    <option value="52">Intel HD Graphics 6000</option>
+                    <option value="53">Intel HD Graphics 615</option>
+                    <option value="54">Intel HD Graphics 620</option>
+                    <option value="55">Intel HD Graphics 620 </option>
+                    <option value="56">Intel HD Graphics 630</option>
+                    <option value="57">Intel Iris Graphics 540</option>
+                    <option value="58">Intel Iris Graphics 550</option>
+                    <option value="59">Intel Iris Plus Graphics 640</option>
+                    <option value="60">Intel Iris Plus Graphics 650</option>
+                    <option value="61">Intel Iris Pro Graphics</option>
+                    <option value="62">Intel UHD Graphics 620</option>
+                    <option value="63">Nvidia GTX 980 SLI</option>
+                    <option value="64">Nvidia GeForce 150MX</option>
+                    <option value="65">Nvidia GeForce 920</option>
+                    <option value="66">Nvidia GeForce 920M</option>
+                    <option value="67">Nvidia GeForce 920MX</option>
+                    <option value="68">Nvidia GeForce 920MX </option>
+                    <option value="69">Nvidia GeForce 930M</option>
+                    <option value="70">Nvidia GeForce 930MX</option>
+                    <option value="71">Nvidia GeForce 930MX </option>
+                    <option value="72">Nvidia GeForce 940M</option>
+                    <option value="73">Nvidia GeForce 940MX</option>
+                    <option value="74">Nvidia GeForce 960M</option>
+                    <option value="75">Nvidia GeForce GT 940MX</option>
+                    <option value="76">Nvidia GeForce GTX 1050</option>
+                    <option value="77">Nvidia GeForce GTX 1050 Ti</option>
+                    <option value="78">Nvidia GeForce GTX 1050M</option>
+                    <option value="79">Nvidia GeForce GTX 1050Ti</option>
+                    <option value="80">Nvidia GeForce GTX 1060</option>
+                    <option value="81">Nvidia GeForce GTX 1070</option>
+                    <option value="82">Nvidia GeForce GTX 1070M</option>
+                    <option value="83">Nvidia GeForce GTX 1080</option>
+                    <option value="84">Nvidia GeForce GTX 930MX</option>
+                    <option value="85">Nvidia GeForce GTX 940M</option>
+                    <option value="86">Nvidia GeForce GTX 940MX</option>
+                    <option value="87">Nvidia GeForce GTX 950M</option>
+                    <option value="88">Nvidia GeForce GTX 960</option>
+                    <option value="89">Nvidia GeForce GTX 960Μ</option>
+                    <option value="90">Nvidia GeForce GTX 960M</option>
+                    <option value="91">Nvidia GeForce GTX 965M</option>
+                    <option value="92">Nvidia GeForce GTX 970M</option>
+                    <option value="93">Nvidia GeForce GTX 980 </option>
+                    <option value="94">Nvidia GeForce GTX 980M</option>
+                    <option value="95">Nvidia GeForce GTX1050 Ti</option>
+                    <option value="96">Nvidia GeForce GTX1060</option>
+                    <option value="97">Nvidia GeForce GTX1080</option>
+                    <option value="98">Nvidia GeForce MX130</option>
+                    <option value="99">Nvidia GeForce MX150</option>
+                    <option value="100">Nvidia Quadro 3000M</option>
+                    <option value="101">Nvidia Quadro M1000M</option>
+                    <option value="102">Nvidia Quadro M1200</option>
+                    <option value="103">Nvidia Quadro M2000M</option>
+                    <option value="104">Nvidia Quadro M2200</option>
+                    <option value="105">Nvidia Quadro M2200M</option>
+                    <option value="106">Nvidia Quadro M3000M</option>
+                    <option value="107">Nvidia Quadro M500M</option>
+                    <option value="108">Nvidia Quadro M520M</option>
+                    <option value="109">Nvidia Quadro M620</option>
+                    <option value="110">Nvidia Quadro M620M</option>
+                </select>
+            </div>
+            
+
+            <div class="question">
+                <p>7) Select Operating System:</p>
+                <select name="os">
+                    <option value="1">Android</option>
+                    <option value="2">Chrome OS</option>
+                    <option value="3">Linux</option>
+                    <option value="4">Mac OS X</option>
+                    <option value="5">No OS</option>
+                    <option value="6">Windows 10</option>
+                    <option value="7">Windows 10 S</option>
+                    <option value="8">Windows 7</option>
+                    <option value="9">macOS</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <p>8) Select RAM:</p>
+                <select name="ram">
+                    <option value="2">2GB</option>
+                    <option value="4">4GB</option>
+                    <option value="6">6GB</option>
+                    <option value="8">8GB</option>
+                    <option value="12">12GB</option>
+                    <option value="16">16GB</option>
+                    <option value="24">24GB</option>
+                    <option value="32">32GB</option>
+                    <option value="64">64GB</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <p>9) Select Display Size (inches):</p>
+                <select name="display_size">
+                    <option value="10.1">10.1</option>
+                    <option value="11.3">11.3</option>
+                    <option value="11.6">11.6</option>
+                    <option value="12.0">12.0</option>
+                    <option value="12.3">12.3</option>
+                    <option value="12.5">12.5</option>
+                    <option value="13.0">13.0</option>
+                    <option value="13.3">13.3</option>
+                    <option value="13.5">13.5</option>
+                    <option value="13.9">13.9</option>
+                    <option value="14.0">14.0</option>
+                    <option value="14.1">14.1</option>
+                    <option value="15.0">15.0</option>
+                    <option value="15.4">15.4</option>
+                    <option value="15.6">15.6</option>
+                    <option value="17.0">17.0</option>
+                    <option value="17.3">17.3</option>
+                    <option value="18.4">18.4</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <p>10) Select Weight:</p>
+                <select name="weight">
+                    <option value="0.69">0.69</option>
+                    <option value="0.81">0.81</option>
+                    <option value="0.91">0.91</option>
+                    <option value="0.92">0.92</option>
+                    <option value="0.97">0.97</option>
+                    <option value="0.98">0.98</option>
+                    <option value="0.99">0.99</option>
+                    <option value="1.05">1.05</option>
+                    <option value="1.08">1.08</option>
+                    <option value="1.09">1.09</option>
+                    <option value="1.1">1.1</option>
+                    <option value="1.11">1.11</option>
+                    <option value="1.12">1.12</option>
+                    <option value="1.13">1.13</option>
+                    <option value="1.14">1.14</option>
+                    <option value="1.15">1.15</option>
+                    <option value="1.16">1.16</option>
+                    <option value="1.17">1.17</option>
+                    <option value="1.18">1.18</option>
+                    <option value="1.19">1.19</option>
+                    <option value="1.2">1.2</option>
+                    <option value="1.21">1.21</option>
+                    <option value="1.22">1.22</option>
+                    <option value="1.23">1.23</option>
+                    <option value="1.24">1.24</option>
+                    <option value="1.25">1.25</option>
+                    <option value="1.26">1.26</option>
+                    <option value="1.27">1.27</option>
+                    <option value="1.28">1.28</option>
+                    <option value="1.29">1.29</option>
+                    <option value="1.3">1.3</option>
+                    <option value="1.31">1.31</option>
+                    <option value="1.32">1.32</option>
+                    <option value="1.34">1.34</option>
+                    <option value="1.35">1.35</option>
+                    <option value="1.36">1.36</option>
+                    <option value="1.37">1.37</option>
+                    <option value="1.38">1.38</option>
+                    <option value="1.39">1.39</option>
+                    <option value="1.4">1.4</option>
+                    <option value="1.41">1.41</option>
+                    <option value="1.42">1.42</option>
+                    <option value="1.43">1.43</option>
+                    <option value="1.44">1.44</option>
+                    <option value="1.45">1.45</option>
+                    <option value="1.47">1.47</option>
+                    <option value="1.48">1.48</option>
+                    <option value="1.49">1.49</option>
+                    <option value="1.5">1.5</option>
+                    <option value="1.54">1.54</option>
+                    <option value="1.55">1.55</option>
+                    <option value="1.56">1.56</option>
+                    <option value="1.58">1.58</option>
+                    <option value="1.59">1.59</option>
+                    <option value="1.6">1.6</option>
+                    <option value="1.62">1.62</option>
+                    <option value="1.63">1.63</option>
+                    <option value="1.64">1.64</option>
+                    <option value="1.65">1.65</option>
+                    <option value="1.68">1.68</option>
+                    <option value="1.7">1.7</option>
+                    <option value="1.71">1.71</option>
+                    <option value="1.74">1.74</option>
+                    <option value="1.75">1.75</option>
+                    <option value="1.76">1.76</option>
+                    <option value="1.78">1.78</option>
+                    <option value="1.79">1.79</option>
+                    <option value="1.8">1.8</option>
+                    <option value="1.83">1.83</option>
+                    <option value="1.84">1.84</option>
+                    <option value="1.85">1.85</option>
+                    <option value="1.86">1.86</option>
+                    <option value="1.87">1.87</option>
+                    <option value="1.88">1.88</option>
+                    <option value="1.89">1.89</option>
+                    <option value="1.9">1.9</option>
+                    <option value="1.91">1.91</option>
+                    <option value="1.93">1.93</option>
+                    <option value="1.94">1.94</option>
+                    <option value="1.95">1.95</option>
+                    <option value="1.96">1.96</option>
+                    <option value="1.98">1.98</option>
+                    <option value="1.99">1.99</option>
+                    <option value="2.0">2.0</option>
+                    <option value="2.02">2.02</option>
+                    <option value="2.03">2.03</option>
+                    <option value="2.04">2.04</option>
+                    <option value="2.05">2.05</option>
+                    <option value="2.06">2.06</option>
+                    <option value="2.07">2.07</option>
+                    <option value="2.08">2.08</option>
+                    <option value="2.09">2.09</option>
+                    <option value="2.1">2.1</option>
+                    <option value="2.13">2.13</option>
+                    <option value="2.14">2.14</option>
+                    <option value="2.15">2.15</option>
+                    <option value="2.16">2.16</option>
+                    <option value="2.17">2.17</option>
+                    <option value="2.18">2.18</option>
+                    <option value="2.19">2.19</option>
+                    <option value="2.191">2.191</option>
+                    <option value="2.2">2.2</option>
+                    <option value="2.21">2.21</option>
+                    <option value="2.23">2.23</option>
+                    <option value="2.24">2.24</option>
+                    <option value="2.25">2.25</option>
+                    <option value="2.26">2.26</option>
+                    <option value="2.29">2.29</option>
+                    <option value="2.3">2.3</option>
+                    <option value="2.31">2.31</option>
+                    <option value="2.32">2.32</option>
+                    <option value="2.33">2.33</option>
+                    <option value="2.34">2.34</option>
+                    <option value="2.36">2.36</option>
+                    <option value="2.37">2.37</option>
+                    <option value="2.38">2.38</option>
+                    <option value="2.4">2.4</option>
+                    <option value="2.43">2.43</option>
+                    <option value="2.45">2.45</option>
+                    <option value="2.5">2.5</option>
+                    <option value="2.54">2.54</option>
+                    <option value="2.56">2.56</option>
+                    <option value="2.59">2.59</option>
+                    <option value="2.591">2.591</option>
+                    <option value="2.6">2.6</option>
+                    <option value="2.62">2.62</option>
+                    <option value="2.63">2.63</option>
+                    <option value="2.65">2.65</option>
+                    <option value="2.67">2.67</option>
+                    <option value="2.69">2.69</option>
+                    <option value="2.7">2.7</option>
+                    <option value="2.71">2.71</option>
+                    <option value="2.72">2.72</option>
+                    <option value="2.73">2.73</option>
+                    <option value="2.75">2.75</option>
+                    <option value="2.77">2.77</option>
+                    <option value="2.79">2.79</option>
+                    <option value="2.8">2.8</option>
+                    <option value="2.83">2.83</option>
+                    <option value="2.9">2.9</option>
+                    <option value="2.94">2.94</option>
+                    <option value="2.99">2.99</option>
+                    <option value="3.0">3.0</option>
+                    <option value="3.14">3.14</option>
+                    <option value="3.2">3.2</option>
+                    <option value="3.21">3.21</option>
+                    <option value="3.25">3.25</option>
+                    <option value="3.3">3.3</option>
+                    <option value="3.31">3.31</option>
+                    <option value="3.35">3.35</option>
+                    <option value="3.4">3.4</option>
+                    <option value="3.42">3.42</option>
+                    <option value="3.49">3.49</option>
+                    <option value="3.52">3.52</option>
+                    <option value="3.58">3.58</option>
+                    <option value="3.6">3.6</option>
+                    <option value="3.74">3.74</option>
+                    <option value="3.78">3.78</option>
+                    <option value="3.8">3.8</option>
+                    <option value="4.0">4.0</option>
+                    <option value="4.14">4.14</option>
+                    <option value="4.2">4.2</option>
+                    <option value="4.3">4.3</option>
+                    <option value="4.33">4.33</option>
+                    <option value="4.36">4.36</option>
+                    <option value="4.4">4.4</option>
+                    <option value="4.42">4.42</option>
+                    <option value="4.5">4.5</option>
+                    <option value="4.6">4.6</option>
+                    <option value="4.7">4.7</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <p>11) Is it touchscreen?</p>
+                <select name="touchscreen">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <p>12) What about IPS?</p>
+                <select name="ips">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Submit</button>
+            </div>
+
+       
+    </form>
+    {% if output %}
+    <div class="button-container">
+            Prediction Result: {{ output }}
+        </div>
+    {% endif %}
+</div>
+</main>
+
+<script>
+    function validateForm() {
+        const company = document.getElementById('company').value;
+        const type = document.getElementById('type').value;
+        const screenResolution = document.getElementById('screen_resolution').value;
+        const cpu = document.getElementById('cpu').value;
+        const memory = document.getElementById('memory').value;
+        const gpu = document.getElementById('gpu').value;
+        const os = document.getElementById('os').value;
+        const ram = document.getElementById('ram').value;
+        const displaySize = document.getElementById('display_size').value;
+        const weight = document.getElementById('weight').value;
+        const touchscreen = document.getElementById('touchscreen').value;
+        const ips = document.getElementById('ips').value;
+
+        // Validation rules for each company
+        const validationRules = {
+            "Apple": {
+                "cpu": ["Intel Core i5", "Intel Core i7"],
+                "os": ["Mac OS"],
+                "touchscreen": ["0"], // No touchscreen support
+                "gpu": ["Intel Integrated Graphics", "AMD Radeon Pro 455"],
+                "ram": ["8", "16", "32"],
+                "type": ["Ultrabook", "Notebook"],
+                "screenResolution": ["2560x1440", "2880x1800", "Retina Display"],
+                "ips": ["1"], // IPS is mandatory
+                "weight": "2", // Max weight in kg
+            },
+            "Dell": {
+                "cpu": ["Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7"],
+                "os": ["Windows 10", "Linux"],
+                "touchscreen": ["0", "1"],
+                "gpu": ["NVIDIA GTX 1650", "NVIDIA RTX 3060", "Intel Integrated Graphics"],
+                "ram": ["4", "8", "16", "32", "64"],
+                "type": ["Notebook", "Gaming", "Workstation"],
+                "screenResolution": ["1366x768", "1920x1080", "2560x1440"],
+                "weight": "2.5",
+            },
+            "HP": {
+                "cpu": ["Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7"],
+                "os": ["Windows 10", "Linux"],
+                "touchscreen": ["0", "1"],
+                "gpu": ["NVIDIA GTX 1650", "Intel Integrated Graphics"],
+                "ram": ["4", "8", "16", "32"],
+                "type": ["Notebook", "Ultrabook"],
+                "screenResolution": ["1366x768", "1920x1080"],
+                "weight": "2.3",
+            },
+            "Lenovo": {
+                "cpu": ["Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7"],
+                "os": ["Windows 10", "Linux"],
+                "touchscreen": ["0", "1"],
+                "gpu": ["NVIDIA GTX 1650", "Intel Integrated Graphics"],
+                "ram": ["4", "8", "16", "32"],
+                "type": ["Notebook", "Gaming", "2 in 1 Convertible"],
+                "screenResolution": ["1366x768", "1920x1080", "2560x1440"],
+                "weight": "2.5",
+            },
+            "MSI": {
+                "cpu": ["Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7"],
+                "os": ["Windows 10"],
+                "touchscreen": ["0"],
+                "gpu": ["NVIDIA RTX 3060", "NVIDIA GTX 1650"],
+                "ram": ["8", "16", "32", "64"],
+                "type": ["Gaming", "Workstation"],
+                "screenResolution": ["1920x1080", "2560x1440", "4K Ultra HD"],
+                "weight": "3",
+            }
+        };
+
+        // Get validation rules for the selected company
+        const rules = validationRules[company];
+
+        // Check CPU compatibility
+        if (!rules.cpu.includes(cpu)) {
+            alert(`${company} does not support the selected CPU: ${cpu}`);
+            return false;
+        }
+
+        // Check OS compatibility
+        if (!rules.os.includes(os)) {
+            alert(`${company} does not support the selected OS: ${os}`);
+            return false;
+        }
+
+        // Check touchscreen compatibility
+        if (!rules.touchscreen.includes(touchscreen)) {
+            alert(`${company} does not support touchscreen option: ${touchscreen === "1" ? "Yes" : "No"}`);
+            return false;
+        }
+
+        // Check GPU compatibility
+        if (!rules.gpu.includes(gpu)) {
+            alert(`${company} does not support the selected GPU: ${gpu}`);
+            return false;
+        }
+
+        // Check RAM compatibility
+        if (!rules.ram.includes(ram)) {
+            alert(`${company} does not support the selected RAM size: ${ram}GB`);
+            return false;
+        }
+
+        // Check type compatibility
+        if (!rules.type.includes(type)) {
+            alert(`${company} does not support the selected type: ${type}`);
+            return false;
+        }
+
+        // Check screen resolution compatibility
+        if (!rules.screenResolution.includes(screenResolution)) {
+            alert(`${company} does not support the selected screen resolution: ${screenResolution}`);
+            return false;
+        }
+
+        // Check weight compatibility
+        if (parseFloat(weight) > parseFloat(rules.weight)) {
+            alert(`${company} laptops cannot exceed ${rules.weight} kg.`);
+            return false;
+        }
+
+        // Check IPS compatibility
+        if (rules.ips && rules.ips.includes("1") && ips === "0") {
+            alert(`${company} laptops require IPS display.`);
+            return false;
+        }
+
+        // If all validations pass
+        return true;
+    }
+</script>
+
+{% endblock body %}

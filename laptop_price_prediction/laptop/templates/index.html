@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+
+<style>
+    /* Main content area styling */
+    body {
+        height: 100vh;
+        background-image: url("static/newbg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /* Main content area styling */
+    .body-content {
+        flex-grow: 1; /* Allow the main content to take up the remaining space */
+        display: flex;
+        justify-content: flex-start; /* Align content to the left */
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    /* Fully transparent content container styling */
+    .content-container {
+        background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent background */
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 500px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.5);
+        text-align: left;
+        color: white; /* Adjusted font color for better visibility */
+        transition: box-shadow 0.3s ease;
+    }
+
+    .quote p {
+        margin: 0;
+    }
+
+    .p1 {
+        font-size: 38px;
+        color: #ffcc00;
+        margin-bottom: 15px;
+    }
+
+    .p2 {
+        font-size: 20px;
+        color: white;
+        margin-bottom: 20px;
+        font-weight: bold; 
+    }
+
+    .p3 {
+        font-size: 26px;
+        color: #ffcc00;
+    }
+
+    /* Button container styling */
+    .button-container {
+        margin-top: 20px;
+    }
+
+    .button-container a {
+        text-decoration: none;
+    }
+
+    /* Transparent button with nav-matching hover effect */
+    button {
+        color: white;
+        font-weight: bold; 
+        font-size: 18px;
+        padding: 10px 30px;
+        background-color: rgba(255, 255, 255, 0.1); /* Transparent button */
+        border: 2px solid transparent;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: color 0.4s, background-color 0.4s, box-shadow 0.4s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    button:hover {
+        color: #ffcc00;
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.6);
+        border: 2px solid #ffcc00;
+    }
+
+    /* Footer Styling */
+    .footer {
+        background-color: rgba(0, 0, 0, 0); /* Transparent footer */
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: auto; /* Push the footer to the bottom of the page */
+    }
+
+    .footer .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        transition: color 0.3s, background-color 0.3s;
+    }
+
+    .footer .footer-links a:hover {
+        color: #ffcc00;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+</style>
+
+<main class="body-content">
+    <div class="content-container">
+        <div class="quote">
+            <p class="p1">Find Your Ideal Laptop</p> 
+            <p class="p2">Get a personalized price prediction based on specifications</p>
+            <p class="p3">Accuracy at its Best</p>           
+        </div>
+        <div class="button-container">
+            <a href="/prediction">
+               <button><span>Get Started</span></button>
+            </a>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+{% comment %} <div class="footer">
+    <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/prediction">Prediction</a>
+        <a href="/about">About Us</a>
+    </div>
+</div> {% endcomment %}
+
+{% endblock body %}
